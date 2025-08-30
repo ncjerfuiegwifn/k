@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion Clock Widget</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #FDF6EC;
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
+        }
+        .clock-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .time {
+            font-family: 'Lora', serif;
+            font-size: 4rem;
+            font-weight: 500;
+            color: #6B4F4F;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+        .time-seconds {
+            font-size: 1.5rem;
+            margin-left: 8px;
+            opacity: 0.8;
+        }
+        .time-ampm {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #D4A55D;
+            margin-left: 10px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background-color: rgba(164, 126, 92, 0.1);
+        }
+        .date {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #A47E5C;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="time">
+            <span id="time-hm">00:00</span>
+            <span id="time-seconds" class="time-seconds">00</span>
+            <span id="time-ampm" class="time-ampm">AM</span>
+        </div>
+        <div id="date" class="date">
+            Loading...
+        </div>
+    </div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const hoursStr = hours.toString();
+            const dayOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][now.getDay()];
+            const month = ["January","February","March","April","May","June","July","August","September","October","November","December"][now.getMonth()];
+            const dayOfMonth = now.getDate();
+            const year = now.getFullYear();
+            document.getElementById('time-hm').textContent = `${hoursStr}:${minutes}`;
+            document.getElementById('time-seconds').textContent = seconds;
+            document.getElementById('time-ampm').textContent = ampm;
+            document.getElementById('date').textContent = `${dayOfWeek}, ${month} ${dayOfMonth}, ${year}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
